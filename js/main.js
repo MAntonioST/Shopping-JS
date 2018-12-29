@@ -22,6 +22,8 @@ function setList(list){
     document.getElementById("listTable").innerHTML = table;
 }
 
+setList(list);
+
 function formatDesc(desc){
     var str = desc.toLowerCase();
     str = str.charAt(0).toUpperCase() + str.slice(1);
@@ -35,6 +37,15 @@ function formatValue(value){
     return str;
 }
 
-setList(list);
+function addData(){
+    var desc = document.getElementById("desc").value;
+    var amount = document.getElementById("amount").value;
+    var value = document.getElementById("value").value;
+
+    list.unshift({"desc":desc,"amount":amount,"value":value});
+
+    setList(list);
+}
+
 
 console.log(getTotal(list));
