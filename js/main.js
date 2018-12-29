@@ -1,8 +1,8 @@
 
 var list = [
- {"desc":"rice","amount":"1","value":"5.40"},
- {"desc":"beer","amount":"18","value":"1.99"},
- {"desc":"meat","amount":"1","value":"15.00"}
+    {"desc":"rice","amount":"1","value":"5.40"},
+    {"desc":"beer","amount":"12","value":"1.99"},
+    {"desc":"meat","amount":"1","value":"15.00"}
 ];
 
 function getTotal(list){
@@ -16,13 +16,11 @@ function getTotal(list){
 function setList(list){
     var table = '<thead><tr><td>Description</td><td>Amount</td><td>Value</td><td>Action</td></tr></thead><tbody>';
     for(var key in list){
-        table += '<tr><td>'+ formatDesc(list[key].desc) +'</td><td>'+ list[key].amount +'</td><td>'+ formatValue(list[key].value) +'</td><td><button class="btn btn-default" onclick="setUpdate('+key+');" >Edit</button> Delete</td></tr>';
+        table += '<tr><td>'+ formatDesc(list[key].desc) +'</td><td>'+ list[key].amount +'</td><td>'+ formatValue(list[key].value) +'</td><td><button class="btn btn-default" onclick="setUpdate('+key+');" >Edit</button>  <button class="btn btn-default" onclick="deleteData('+key+');" >Delete</button></td></tr>';
     }
     table += '</tbody>';
     document.getElementById("listTable").innerHTML = table;
 }
-
-setList(list);
 
 function formatDesc(desc){
     var str = desc.toLowerCase();
@@ -30,8 +28,8 @@ function formatDesc(desc){
     return str;
 }
 
-function formatValue(value){
-    var str = parseFloat(value).toFixed(2) +  "";
+function  formatValue(value){
+    var str = parseFloat(value).toFixed(2) + "";
     str = str.replace(".",",");
     str = "$ " + str;
     return str;
@@ -42,8 +40,7 @@ function addData(){
     var amount = document.getElementById("amount").value;
     var value = document.getElementById("value").value;
 
-    list.unshift({"desc":desc,"amount":amount,"value":value});
-
+    list.unshift({"desc":desc , "amount":amount ,"value":value });
     setList(list);
 }
 
@@ -77,8 +74,23 @@ function updateData(){
     list[id] = {"desc":desc, "amount": amount, "value":value };
     resetForm();
     setList(list);
+}
 
+function deleteData(id){
+    if(confirm("Delete this item?")){
+        if(id === list.length - 1){
+            list.pop();
+        }else if(id === 0){
+            list.shift();
+        }else{
+            var arrAuxIni = list.slice(0,id);
+            var arrAuxEnd = list.slice(id + 1);
+            list = arrAuxIni.concat(arrAuxEnd);
+        }
+        setList(list);
+    }
 }
 
 
+setList(list);
 console.log(getTotal(list));
