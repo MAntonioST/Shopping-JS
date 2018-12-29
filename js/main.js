@@ -1,4 +1,3 @@
-
 var list = [
     {"desc":"rice","amount":"1","value":"5.40"},
     {"desc":"beer","amount":"12","value":"1.99"},
@@ -10,9 +9,7 @@ function getTotal(list){
     for(var key in list){
         total += list[key].value * list[key].amount;
     }
-    
     document.getElementById("totalValue").innerHTML = formatValue(total);
-  
 }
 
 function setList(list){
@@ -23,6 +20,7 @@ function setList(list){
     table += '</tbody>';
     document.getElementById("listTable").innerHTML = table;
     getTotal(list);
+    saveListStorage(list);
 }
 
 function formatDesc(desc){
@@ -138,8 +136,6 @@ function validation(){
     }else{
         return 1;
     }
-
-
 }
 
 function deleteList(){
@@ -149,5 +145,18 @@ function deleteList(){
     }
 }
 
+function saveListStorage(list){
+    var jsonStr = JSON.stringify(list);
+    localStorage.setItem("list",jsonStr);
+}
 
-setList(list);
+function initListStorage(){
+    var testList = localStorage.getItem("list");
+    if(testList){
+        list = JSON.parse(testList);
+    }
+    setList(list);
+}
+
+
+initListStorage();
